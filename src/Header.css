@@ -15,3 +15,8 @@
   font-size: 1rem;
   opacity: 0.9;
 }
+.header-date {
+  margin: 5px 0 0 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
