@@ -19,4 +19,21 @@
   .contenu {
     padding: 12px;
   }
+
+  @media (max-width: 600px) {
+  .contenu {
+    padding: 12px;
+  }
+
+  .ligne-bus {
+    padding: 10px 12px;
+  }
+
+  .ligne-numero {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    margin-right: 12px;
+  }
+}
 }
