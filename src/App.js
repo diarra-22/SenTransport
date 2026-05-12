@@ -43,6 +43,8 @@ function App() {
     l.numero.includes(recherche)
   );
 
+  const [nbRecherches, setNbRecherches] = useState(0);
+
   function handleClickLigne(ligne) {
     if (ligneSelectionnee && ligneSelectionnee.id === ligne.id) {
       setLigneSelectionnee(null);
@@ -55,8 +57,17 @@ function App() {
     <div className="App">
       <Header />
       <main className="contenu">
-        <Recherche valeur={recherche} onChange={setRecherche} />
+        <Recherche
+  valeur={recherche}
+  onChange={(valeur) => {
+    setRecherche(valeur);
+    setNbRecherches(nbRecherches + 1);
+  }}
+/>
         <p className="resultat-recherche">
+          {lignesFiltrees.length === 0 && (
+  <p className="aucun-resultat">Aucune ligne trouvée</p>
+)}
           {lignesFiltrees.length} ligne{lignesFiltrees.length > 1 ? 's' : ''} trouvée{lignesFiltrees.length > 1 ? 's' : ''}
         </p>
         {lignesFiltrees.map(ligne => (
