@@ -44,5 +44,19 @@
     "arrets": 11,
     "listeArrets": ["Yoff Village", "Aeroport LSS",
       "Parcelles U17", "Grand Yoff", "HLM", "Sandaga"]
+  },
+  {
+    "id": 7,
+    "numero": "5",
+    "depart": "Fann",
+    "arrivee": "Grand Yoff",
+    "arrets": 12
+  },
+  {
+    "id": 8,
+    "numero": "10",
+    "depart": "Dieuppeul",
+    "arrivee": "Palais",
+    "arrets": 15
   }
 ]

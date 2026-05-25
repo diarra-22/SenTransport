@@ -1,0 +1,12 @@
+[
+  {"id": 1, "nom": "Parcelles U14", "lat": 14.7645, "lon": -17.3936, "lignes": ["1"]},
+  {"id": 2, "nom": "Patte d'Oie", "lat": 14.7435, "lon": -17.4280, "lignes": ["1","7"]},
+  {"id": 3, "nom": "Colobane", "lat": 14.7000, "lon": -17.4450, "lignes": ["1","8","15"]},
+  {"id": 4, "nom": "Plateau", "lat": 14.6690, "lon": -17.4380, "lignes": ["1"]},
+  {"id": 5, "nom": "Guediawaye", "lat": 14.7750, "lon": -17.3850, "lignes": ["7"]},
+  {"id": 6, "nom": "Grand Yoff", "lat": 14.7350, "lon": -17.4350, "lignes": ["7","12"]},
+  {"id": 7, "nom": "Medina", "lat": 14.6900, "lon": -17.4500, "lignes": ["15"]},
+  {"id": 8, "nom": "Ouakam Village", "lat": 14.7180, "lon": -17.4780, "lignes": ["23"]},
+  {"id": 9, "nom": "Almadies", "lat": 14.7450, "lon": -17.5170, "lignes": ["8"]},
+  {"id": 10, "nom": "Sandaga", "lat": 14.6730, "lon": -17.4400, "lignes": ["12"]}
+]
