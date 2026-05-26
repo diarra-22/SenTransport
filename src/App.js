@@ -5,21 +5,21 @@ import Recherche from './Recherche';
 import LigneBus from './LigneBus';
 import DetailLigne from './DetailLigne';
 import Footer from './Footer';
-import  Carte from './Carte';
+import Carte from './Carte';
+import Meteo from './Meteo';
+import SignalerIncident from './SignalerIncident';
 
 function App() {
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
-
-  const [lignes, setLignes]         = useState([]);
+  const [lignes, setLignes] = useState([]);
   const [chargement, setChargement] = useState(true);
-  const [erreur, setErreur]         = useState(null);
+  const [erreur, setErreur] = useState(null);
   const [nbRecherches, setNbRecherches] = useState(0);
 
-  // --- MODIFICATION EXERCICE 1 : CRÉATION DE LA FONCTION DE CHARGEMENT ---
   const chargerDonnees = () => {
-    setChargement(true); // On affiche l'écran de chargement au clic
-    setErreur(null);     // On efface une éventuelle ancienne erreur
+    setChargement(true);
+    setErreur(null);
 
     fetch("http://localhost:5000/lignes")
       .then(response => {
@@ -38,7 +38,6 @@ function App() {
       });
   };
 
-  // --- MODIFICATION EXERCICE 1 : APPEL DE LA FONCTION AU DÉMARRAGE ---
   useEffect(() => {
     chargerDonnees();
   }, []);
@@ -63,8 +62,6 @@ function App() {
             <p>Impossible de charger les lignes.</p>
             <p className="erreur-detail">{erreur}</p>
             <p>Vérifiez que le serveur Flask est lancé (python api/app.py).</p>
-            
-            {/* --- MODIFICATION EXERCICE 1 : BOUTON DE SECOURS DANS L'ÉCRAN D'ERREUR --- */}
             <button onClick={chargerDonnees} className="btn-recharger-erreur" style={{ marginTop: '15px', padding: '8px 16px', cursor: 'pointer' }}>
               🔄 Réessayer
             </button>
@@ -81,33 +78,30 @@ function App() {
   );
 
   function handleClickLigne(ligne) {
-  // 1. Si on clique sur la ligne déjà sélectionnée, on la referme (comme avant)
-  if (ligneSelectionnee && ligneSelectionnee.id === ligne.id) {
-    setLigneSelectionnee(null);
-  } else {
-    // 2. Sinon, on va chercher les détails de CETTE ligne spécifique auprès de Flask
-    fetch(`http://localhost:5000/lignes/${ligne.id}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Impossible de charger les détails de cette ligne (Statut : " + response.status + ")");
-        }
-        return response.json();
-      })
-      .then(data => {
-        // 3. Une fois les détails reçus de Flask, on met à jour l'état
-        setLigneSelectionnee(data);
-      })
-      .catch(error => {
-        alert(error.message); // Une petite alerte simple si le fetch échoue
-      });
+    if (ligneSelectionnee && ligneSelectionnee.id === ligne.id) {
+      setLigneSelectionnee(null);
+    } else {
+      fetch(`http://localhost:5000/lignes/${ligne.id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Impossible de charger les détails (Statut : " + response.status + ")");
+          }
+          return response.json();
+        })
+        .then(data => {
+          setLigneSelectionnee(data);
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    }
   }
-}
-
 
   return (
     <div className="App">
       <Header />
       <main className="contenu">
+        <Meteo />
         <Recherche
           valeur={recherche}
           onChange={(valeur) => {
@@ -115,21 +109,17 @@ function App() {
             setNbRecherches(nbRecherches + 1);
           }}
         />
-        
-        {/* --- MODIFICATION EXERCICE 1 : AJOUT DU BOUTON RECHARGER DANS L'ÉCRAN NORMAL --- */}
         <div style={{ textAlign: 'center', margin: '15px 0' }}>
           <button onClick={chargerDonnees} className="btn-recharger" style={{ padding: '10px 20px', borderRadius: '5px', border: '1px solid #ccc', cursor: 'pointer', backgroundColor: '#f8f9fa' }}>
             🔄 Recharger les lignes
           </button>
         </div>
-
         <p className="resultat-recherche">
           {lignesFiltrees.length === 0 && (
             <span className="aucun-resultat">Aucune ligne trouvée <br/></span>
           )}
           {lignesFiltrees.length} ligne{lignesFiltrees.length > 1 ? 's' : ''} trouvée{lignesFiltrees.length > 1 ? 's' : ''}
         </p>
-        
         {lignesFiltrees.map(ligne => (
           <LigneBus
             key={ligne.id}
@@ -142,7 +132,8 @@ function App() {
           />
         ))}
         {ligneSelectionnee && <DetailLigne ligne={ligneSelectionnee} />}
-        <Carte  /> 
+        <Carte />
+        <SignalerIncident />
       </main>
       <Footer />
     </div>

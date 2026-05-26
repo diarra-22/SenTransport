@@ -10,9 +10,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(BASE_DIR, "lignes_ddd.json"), "r") as f:
     lignes = json.load(f)
 
-
 with open(os.path.join(BASE_DIR, "arrets.json"), "r") as f:
     arrets = json.load(f)
+
+incidents = []  # ← ICI, avant toutes les routes
 
 @app.route("/")
 def accueil():
@@ -59,5 +60,25 @@ def recherche_lignes():
     ]
     return jsonify(resultats)
 
-if __name__ == "__main__":
+@app.route("/incidents", methods=["GET"])
+def get_incidents():
+    return jsonify(incidents)
+
+@app.route("/incidents", methods=["POST"])
+def post_incident():
+    data = request.get_json()
+    if not data or "ligne" not in data or "description" not in data:
+        return jsonify({"erreur": "Champs requis manquants"}), 400
+
+    incident = {
+        "id": len(incidents) + 1,
+        "ligne": data["ligne"],
+        "description": data["description"],
+        "lieu": data.get("lieu", "Non precise"),
+    }
+    incidents.append(incident)
+    return jsonify(incident), 201
+
+if __name__ == "__main__":  # ← app.run() tout à la fin
     app.run(debug=True, port=5000)
+    
